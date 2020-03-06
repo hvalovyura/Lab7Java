@@ -67,7 +67,32 @@ public class MainFrame extends JFrame
         final GroupLayout layout2 = new GroupLayout(messagePanel);
         messagePanel.setLayout(layout2);
 
-        
+        layout2.setHorizontalGroup(layout2.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout2.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout2.createSequentialGroup()
+                                .addComponent(labelFrom)
+                                .addGap(SMALL_GAP)
+                                .addComponent(textFieldFrom)
+                                .addGap(LARGE_GAP)
+                                .addComponent(labelTo)
+                                .addGap(SMALL_GAP)
+                                .addComponent(textFieldTo))
+                        .addComponent(scrollPanelOutgoing)
+                        .addComponent(sendButton))
+                .addContainerGap());
+        layout2.setVerticalGroup(layout2.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout2.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(labelFrom)
+                        .addComponent(textFieldFrom)
+                        .addComponent(labelTo)
+                        .addComponent(textFieldTo))
+                .addGap(MEDIUM_GAP)
+                .addComponent(scrollPanelOutgoing)
+                .addGap(MEDIUM_GAP)
+                .addComponent(sendButton)
+                .addContainerGap());
 
     }
 
