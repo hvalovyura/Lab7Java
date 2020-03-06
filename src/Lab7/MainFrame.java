@@ -4,6 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class MainFrame extends JFrame
 {
@@ -109,7 +114,30 @@ public class MainFrame extends JFrame
                 .addComponent(messagePanel)
                 .addContainerGap());
 
-        
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try
+                {
+                    final ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
+                    while(!Thread.interrupted())
+                    {
+                        final Socket socket = serverSocket.accept();
+                        final DataInputStream in = new DataInputStream(socket.getInputStream());
+                        final String senderName = in.readUTF();
+                        final String message = in.readUTF();
+                        socket.close();
+                        final String address = ((InetSocketAddress) socket.getRemoteSocketAddress()).getAddress().getHostAddress();
+                        textAreaIncoming.append(senderName + " (" + address + "): " + message + "\n");
+                    }
+                }
+                catch(IOException ex)
+                {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(MainFrame.this, "Ошибка в работе сервера", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }).start();
 
     }
 
