@@ -94,6 +94,23 @@ public class MainFrame extends JFrame
                 .addComponent(sendButton)
                 .addContainerGap());
 
+        final GroupLayout layout1 = new GroupLayout(getContentPane());
+        setLayout(layout1);
+        layout1.setHorizontalGroup(layout1.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout1.createParallelGroup()
+                        .addComponent(scrollPanelIncoming)
+                        .addComponent(messagePanel))
+                .addContainerGap());
+        layout1.setVerticalGroup(layout1.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(scrollPanelIncoming)
+                .addGap(MEDIUM_GAP)
+                .addComponent(messagePanel)
+                .addContainerGap());
+
+        
+
     }
 
     public static void main(String[] args)
