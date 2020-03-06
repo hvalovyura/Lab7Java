@@ -182,13 +182,20 @@ public class MainFrame extends JFrame
         catch(IOException ex)
         {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog((MainFrame.this,"Не удалось отправить сообщение", "Ошибка",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(MainFrame.this,"Не удалось отправить сообщение", "Ошибка",JOptionPane.ERROR_MESSAGE);
         }
     }
 
 
     public static void main(String[] args)
     {
-        
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                final MainFrame frame = new MainFrame();
+                frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+                frame.setVisible(true);
+            }
+        });
     }
 }
