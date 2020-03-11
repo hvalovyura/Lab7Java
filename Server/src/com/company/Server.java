@@ -22,7 +22,7 @@ public class Server {
                 System.out.println("Приконнектились");
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 String name = in.readLine();
-                System.out.println(name + " " + socket.getInetAddress());
+                System.out.println(name + " " + socket.getInetAddress() + " " + socket.getPort());
                 try {
                     serverList.add(new OneConnection(socket, name)); // добавить новое соединенние в список
                 } catch (IOException e) {

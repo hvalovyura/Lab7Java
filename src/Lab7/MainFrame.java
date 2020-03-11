@@ -9,6 +9,7 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Random;
 
 public class MainFrame extends JFrame
 {
@@ -28,7 +29,7 @@ public class MainFrame extends JFrame
     private static final int MEDIUM_GAP = 10;
     private static final int LARGE_GAP = 15;
 
-    private static final int SERVER_PORT = 4567;
+    private final int SERVER_PORT = 4567;
 
     private final JTextField textFieldFrom;
     private final JTextField textFieldTo;
@@ -128,25 +129,31 @@ public class MainFrame extends JFrame
             public void run() {
                 try
                 {
-                    final ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
-                    while(!Thread.interrupted())
-                    {
-                        clientSocket = new Socket("localhost", 3456);
-                        output = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-                        output.write(LOGIN + "\n"); // отправляем сообщение на сервер
-                        output.flush();
-                        final Socket socket = serverSocket.accept();
-                        final DataInputStream in = new DataInputStream(socket.getInputStream());
-                        final String senderName = in.readUTF();
-                        final String message = in.readUTF();
-                        //socket.close();
-                        final String address = ((InetSocketAddress) socket.getRemoteSocketAddress()).getAddress().getHostAddress();
-//                        out.write(message + "\n"); // отправляем сообщение на сервер
-//                        out.flush();
-//                        String serverWord = input.readLine(); // ждём, что скажет сервер
-//                        System.out.println(serverWord);
-                        textAreaIncoming.append(senderName + " (" + address + "): " + message + "\n");
-                    }
+                    clientSocket = new Socket("localhost", 3456);
+                    output = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+                    output.write(LOGIN + "\n"); // отправляем сообщение на сервер
+                    output.flush();
+                    clientSocket.close();
+                    //final ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
+//                    while(!Thread.interrupted())
+//                    {
+//                        clientSocket = new Socket("localhost", 3456);
+//                        output = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+//                        output.write(LOGIN + "\n"); // отправляем сообщение на сервер
+//                        output.flush();
+//                        clientSocket.close();
+//                        //final Socket socket = serverSocket.accept();
+//                        //final DataInputStream in = new DataInputStream(clientSocket.getInputStream());
+//                        //final String senderName = in.readUTF();
+//                        //final String message = in.readUTF();
+//                        //socket.close();
+//                        //final String address = ((InetSocketAddress) socket.getRemoteSocketAddress()).getAddress().getHostAddress();
+////                        out.write(message + "\n"); // отправляем сообщение на сервер
+////                        out.flush();
+////                        String serverWord = input.readLine(); // ждём, что скажет сервер
+////                        System.out.println(serverWord);
+//                        //textAreaIncoming.append(senderName + " (" + address + "): " + message + "\n");
+//                    }
                 }
                 catch(IOException ex)
                 {
