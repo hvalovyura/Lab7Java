@@ -35,9 +35,9 @@ public class MainFrame extends JFrame
     private final JTextArea textAreaIncoming;
     private final JTextArea textAreaOutgoing;
 
-    private static BufferedWriter out;
+    private static BufferedWriter output;
     private static Socket clientSocket;
-    private static BufferedReader in;
+    private static BufferedReader input;
 
     public MainFrame()
     {
@@ -131,12 +131,12 @@ public class MainFrame extends JFrame
                         final DataInputStream in = new DataInputStream(socket.getInputStream());
                         final String senderName = in.readUTF();
                         final String message = in.readUTF();
-                        socket.close();
+                        //socket.close();
                         final String address = ((InetSocketAddress) socket.getRemoteSocketAddress()).getAddress().getHostAddress();
-                        out.write(message + "\n"); // отправляем сообщение на сервер
-                        out.flush();
-                        String serverWord = in.readLine(); // ждём, что скажет сервер
-                        System.out.println(serverWord);
+//                        out.write(message + "\n"); // отправляем сообщение на сервер
+//                        out.flush();
+//                        String serverWord = input.readLine(); // ждём, что скажет сервер
+//                        System.out.println(serverWord);
                         textAreaIncoming.append(senderName + " (" + address + "): " + message + "\n");
                     }
                 }
@@ -156,6 +156,8 @@ public class MainFrame extends JFrame
             final String senderName = textFieldFrom.getText();
             final String destinationAddress = textFieldTo.getText();
             final String message = textAreaOutgoing.getText();
+            //clientSocket = new Socket("localhost", 3456);
+
 
             if(senderName.isEmpty())
             {
@@ -177,6 +179,11 @@ public class MainFrame extends JFrame
             final DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             out.writeUTF(senderName);
             out.writeUTF(message);
+            input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            // писать туда же
+            output = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+            output.write(message + "\n"); // отправляем сообщение на сервер
+            output.flush();
             socket.close();
             textAreaIncoming.append("Я -> " + destinationAddress + ": " + message + "\n");
             textAreaOutgoing.setText("");
