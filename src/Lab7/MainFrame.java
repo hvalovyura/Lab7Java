@@ -12,6 +12,7 @@ import java.net.UnknownHostException;
 
 public class MainFrame extends JFrame
 {
+    private static String LOGIN;
     private static final String FRAME_TITLE = "Клиент мгновенных сообщений";
 
     private static final int FRAME_MINIMUM_WIDTH = 500;
@@ -118,6 +119,9 @@ public class MainFrame extends JFrame
                 .addComponent(messagePanel)
                 .addContainerGap());
 
+        LOGIN = JOptionPane.showInputDialog(MainFrame.this, "Введите логин");
+        textFieldFrom.setText(LOGIN);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -182,6 +186,8 @@ public class MainFrame extends JFrame
             input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             // писать туда же
             output = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+            output.write(senderName + "\n"); // отправляем сообщение на сервер
+            output.flush();
             output.write(message + "\n"); // отправляем сообщение на сервер
             output.flush();
             socket.close();

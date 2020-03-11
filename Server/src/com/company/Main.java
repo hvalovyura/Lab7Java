@@ -31,6 +31,8 @@ public class Main {
 
                     String word = in.readLine(); // ждём пока клиент что-нибудь нам напишет
                     System.out.println(word);
+                    word = in.readLine(); // ждём пока клиент что-нибудь нам напишет
+                    System.out.println(word);
                     // не долго думая отвечает клиенту
                     //out.write("Привет, это Сервер! Подтверждаю, вы написали : " + word + "\n");
                     //out.flush(); // выталкиваем все из буфера
