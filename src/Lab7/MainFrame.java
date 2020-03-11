@@ -4,9 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -36,6 +34,10 @@ public class MainFrame extends JFrame
 
     private final JTextArea textAreaIncoming;
     private final JTextArea textAreaOutgoing;
+
+    private static BufferedWriter out;
+    private static Socket clientSocket;
+    private static BufferedReader in;
 
     public MainFrame()
     {
@@ -124,12 +126,17 @@ public class MainFrame extends JFrame
                     final ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
                     while(!Thread.interrupted())
                     {
+                        clientSocket = new Socket("localhost", 3456);
                         final Socket socket = serverSocket.accept();
                         final DataInputStream in = new DataInputStream(socket.getInputStream());
                         final String senderName = in.readUTF();
                         final String message = in.readUTF();
                         socket.close();
                         final String address = ((InetSocketAddress) socket.getRemoteSocketAddress()).getAddress().getHostAddress();
+                        out.write(message + "\n"); // отправляем сообщение на сервер
+                        out.flush();
+                        String serverWord = in.readLine(); // ждём, что скажет сервер
+                        System.out.println(serverWord);
                         textAreaIncoming.append(senderName + " (" + address + "): " + message + "\n");
                     }
                 }
