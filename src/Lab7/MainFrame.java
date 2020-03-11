@@ -122,6 +122,7 @@ public class MainFrame extends JFrame
         LOGIN = JOptionPane.showInputDialog(MainFrame.this, "Введите логин");
         textFieldFrom.setText(LOGIN);
 
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -131,6 +132,9 @@ public class MainFrame extends JFrame
                     while(!Thread.interrupted())
                     {
                         clientSocket = new Socket("localhost", 3456);
+                        output = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+                        output.write(LOGIN + "\n"); // отправляем сообщение на сервер
+                        output.flush();
                         final Socket socket = serverSocket.accept();
                         final DataInputStream in = new DataInputStream(socket.getInputStream());
                         final String senderName = in.readUTF();

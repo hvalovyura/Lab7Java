@@ -31,7 +31,7 @@ public class OneConnection extends Thread
                 {
                     break;
                 }
-                for(OneConnection connection: Server.ServerList)
+                for(OneConnection connection: Server.serverList)
                 {
                     connection.send(word);
                 }
