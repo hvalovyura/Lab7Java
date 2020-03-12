@@ -8,7 +8,7 @@ public class OneConnection extends Thread
     private Socket socket;
     private BufferedReader in;
     private BufferedWriter out;
-    private String name;
+    public String name;
 
     public OneConnection(Socket socket, String name) throws IOException
     {
@@ -16,9 +16,10 @@ public class OneConnection extends Thread
         this.name = name;
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        //start();
+        start();
     }
 
+    @Override
     public void run()
     {
         String word;
@@ -27,10 +28,6 @@ public class OneConnection extends Thread
             while(true)
             {
                 word = in.readLine();
-                if(word.equals("stop"))
-                {
-                    break;
-                }
                 for(OneConnection connection: Server.serverList)
                 {
                     connection.send(word);

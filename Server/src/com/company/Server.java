@@ -25,6 +25,10 @@ public class Server {
                 System.out.println(name + " " + socket.getInetAddress() + " " + socket.getPort());
                 try {
                     serverList.add(new OneConnection(socket, name)); // добавить новое соединенние в список
+                    for(OneConnection connection: serverList)
+                    {
+                        System.out.print(connection.name+" ");
+                    }
                 } catch (IOException e) {
                     // Если завершится неудачей, закрывается сокет,
                     // в противном случае, нить закроет его при завершении работы:
