@@ -30,7 +30,7 @@ public class OneConnection extends Thread
                 word = in.readLine();
                 for(OneConnection connection: Server.serverList)
                 {
-                    connection.send(word);
+                    //connection.send(word);
                 }
             }
         }
